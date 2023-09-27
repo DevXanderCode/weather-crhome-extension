@@ -5,11 +5,18 @@ import { Add as AddIcon } from "@material-ui/icons";
 import "fontsource-roboto";
 import "./popup.css";
 import WeatherCard from "../components/WeatherCard";
-import { getStoredCities, setStoredCities } from "../utils/storage";
+import {
+  LocalStorageOptions,
+  getStoredCities,
+  getStoredOptions,
+  setStoredCities,
+  setStoredOptions,
+} from "../utils/storage";
 
 const App: React.FC<{}> = () => {
   const [cities, setCites] = useState<string[]>([]);
   const [cityInput, setCityInput] = useState<string>("");
+  const [options, setOptions] = useState<LocalStorageOptions | null>(null);
 
   const handleCityButtonClick = () => {
     if (!cityInput) {
@@ -30,15 +37,33 @@ const App: React.FC<{}> = () => {
     });
   };
 
+  const handleTempScaleButtonClick = () => {
+    const updatedOptions: LocalStorageOptions = {
+      ...options,
+      tempScale: options?.tempScale === "metric" ? "imperial" : "metric",
+    };
+
+    setStoredOptions(updatedOptions).then(() => {
+      setOptions(updatedOptions);
+    });
+  };
+
   useEffect(() => {
     getStoredCities().then((cities) => {
       setCites(cities);
     });
+    getStoredOptions().then((options) => {
+      setOptions(options);
+    });
   }, []);
+
+  if (!options) {
+    return null;
+  }
 
   return (
     <Box mx="8px" my="16px">
-      <Grid container>
+      <Grid container justify="space-evenly">
         <Grid item>
           <Paper>
             <Box px="15px" py="5px">
@@ -53,10 +78,23 @@ const App: React.FC<{}> = () => {
             </Box>
           </Paper>
         </Grid>
+        <Grid item>
+          <Paper>
+            <Box py="4px">
+              <IconButton onClick={handleTempScaleButtonClick}>
+                {options?.tempScale === "metric" ? "\u2103" : "\u2109"}
+              </IconButton>
+            </Box>
+          </Paper>
+        </Grid>
       </Grid>
+      {options?.homeCity != "" && (
+        <WeatherCard city={options?.homeCity} tempScale={options?.tempScale} />
+      )}
       {cities?.map((city, index) => (
         <WeatherCard
           city={city}
+          tempScale={options?.tempScale}
           key={`${city}-${index}`}
           onDelete={() => handleCityDeleteButtonClick(index)}
         />
