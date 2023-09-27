@@ -1,5 +1,6 @@
 const OPEN_WEATHER_API_KEY = "0fd5c3dfae61e3978e62cf9c009149d9";
 const BASE_URL = "https://api.openweathermap.org/data/2.5/";
+const BASE_ICON_URL = "https://openweathermap.org/img/wn/";
 
 export type OpenWeatherTempScale = "metric" | "imperial";
 
@@ -38,4 +39,8 @@ export async function fetchOpenWeatherData(
   }
 
   return await res.json();
+}
+
+export function getWeatherIconSrc(iconCode: string) {
+  return `${BASE_ICON_URL}${iconCode}@2x.png`;
 }
