@@ -6,6 +6,7 @@ export interface LocalStorage {
 }
 
 export interface LocalStorageOptions {
+  hasAutoOverlay: boolean;
   homeCity: string;
   tempScale: OpenWeatherTempScale;
 }
@@ -37,7 +38,13 @@ export function getStoredOptions(): Promise<LocalStorageOptions> {
   const keys: LocalStorageKeys[] = ["options"];
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(keys, (result: LocalStorage) => {
-      resolve(result?.options ?? { tempScale: "metric", homeCity: "" });
+      resolve(
+        result?.options ?? {
+          tempScale: "metric",
+          homeCity: "",
+          hasAutoOverlay: false,
+        }
+      );
     });
   });
 }

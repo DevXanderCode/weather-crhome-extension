@@ -9,6 +9,7 @@ import {
   TextField,
   Box,
   Button,
+  Switch,
 } from "@material-ui/core";
 import "./options.css";
 import {
@@ -35,6 +36,12 @@ const App: React.FC<{}> = () => {
       setTimeout(() => {
         setFormState("ready");
       }, 1000);
+    });
+  };
+
+  const handleAutoOverlayChange = (hasAutoOverlay: boolean) => {
+    setStoredOptions({ ...options, hasAutoOverlay }).then(() => {
+      setOptions((prevOptions) => ({ ...prevOptions, hasAutoOverlay }));
     });
   };
 
@@ -65,6 +72,17 @@ const App: React.FC<{}> = () => {
                 onChange={(e) => handleHomeCityChange(e?.target?.value)}
                 disabled={isFieldsDisabled}
                 fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">
+                Auto toggle Overlay on webpage load
+              </Typography>
+              <Switch
+                color="primary"
+                checked={options.hasAutoOverlay}
+                onChange={(e) => handleAutoOverlayChange(e.target.checked)}
+                disabled={isFieldsDisabled}
               />
             </Grid>
             <Grid item>
