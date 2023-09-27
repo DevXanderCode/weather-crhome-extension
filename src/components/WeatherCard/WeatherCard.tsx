@@ -64,7 +64,7 @@ const WeatherCard: FC<{
         <Typography className="weatherCard-body">
           {cardState === "loading"
             ? "Loading..."
-            : "Error: could not retrive the weather condition for this city"}
+            : "Error: could not retrieve the weather condition for this city"}
         </Typography>
       </WeatherCardContainer>
     );

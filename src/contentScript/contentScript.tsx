@@ -19,6 +19,13 @@ const ContentScript: React.FC<{}> = () => {
       if (msg === Message.TOGGLE_OVERLAY) {
         setIsActive((prevStatus) => !prevStatus);
       }
+      if (msg === Message?.TOGGLE_TEMPSCALE) {
+        setOptions((prevOptions) => ({
+          ...prevOptions,
+          tempScale:
+            prevOptions?.tempScale === "metric" ? "imperial" : "metric",
+        }));
+      }
     });
   }, []);
 

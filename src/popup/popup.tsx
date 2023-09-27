@@ -50,6 +50,12 @@ const App: React.FC<{}> = () => {
     setStoredOptions(updatedOptions).then(() => {
       setOptions(updatedOptions);
     });
+
+    chrome.tabs.query({ active: true }, (tabs) => {
+      if (tabs?.length > 0) {
+        chrome.tabs.sendMessage(tabs[0]?.id, Message?.TOGGLE_TEMPSCALE);
+      }
+    });
   };
 
   const handleOverlayButtonClick = () => {
