@@ -27,7 +27,7 @@ const WeatherCardContainer: FC<{
         {onDelete ? (
           <CardActions>
             <Button onClick={onDelete} color="secondary">
-              Delete
+              <Typography className="weatherCard-body">Delete</Typography>
             </Button>
           </CardActions>
         ) : null}
@@ -60,7 +60,8 @@ const WeatherCard: FC<{
   if (cardState === "loading" || cardState === "error")
     return (
       <WeatherCardContainer onDelete={onDelete}>
-        <Typography variant="body1">
+        <Typography className="weatherCard-title">{city}</Typography>
+        <Typography className="weatherCard-body">
           {cardState === "loading"
             ? "Loading..."
             : "Error: could not retrive the weather condition for this city"}
@@ -70,11 +71,11 @@ const WeatherCard: FC<{
 
   return (
     <WeatherCardContainer onDelete={onDelete}>
-      <Typography variant="h5">{weatherData?.name}</Typography>
-      <Typography variant="body1">
+      <Typography className="weatherCard-title">{weatherData?.name}</Typography>
+      <Typography className="weatherCard-body">
         {Math.round(weatherData?.main?.temp)}
       </Typography>
-      <Typography variant="body1">
+      <Typography className="weatherCard-body">
         Feels like: {Math.round(weatherData?.main?.feels_like)}
       </Typography>
     </WeatherCardContainer>
