@@ -20,7 +20,7 @@ export function getStoredCities(): Promise<string[]> {
 
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(keys, (result: LocalStorage) => {
-      resolve(result.cities);
+      resolve(result?.cities ?? []);
     });
   });
 }
